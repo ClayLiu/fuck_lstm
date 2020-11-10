@@ -10,7 +10,7 @@ def z_score(x : np.ndarray) -> np.ndarray:
     return (x - mean) / std
 
 def get_chosen_data() -> dict:
-    df = pd.read_csv('600519.csv')
+    df = pd.read_csv('600519_1110.csv')
     
     df.set_index(['日期'], inplace = True)
     df = df.iloc[::-1]
