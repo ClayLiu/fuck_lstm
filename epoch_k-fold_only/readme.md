@@ -14,3 +14,27 @@
 |  train_acc  |             在训练集上得到的 预测精度              |
 |  test_acc   |             在测试集上得到的 预测精度              |
 
+所使用的的网络架构如下：
+```python
+class StockForecast_only_lstm(nn.Module):
+    def __init__(self):
+        super(StockForecast_only_lstm, self).__init__()
+
+        self.lstm = nn.LSTM(
+            input_size = 7,
+            hidden_size = 32,
+            num_layers = 2,
+            batch_first = True
+        )
+        self.drop_out = nn.Dropout()
+        self.linear = nn.Linear(32, 2)
+        # self.soft_max = nn.Softmax()
+
+    def forward(self, x):
+        lstm_out, hidden_cell = self.lstm(x, None)
+        droped = self.drop_out(lstm_out[:, -1, :])
+        pred = self.linear(droped)
+        # pred = self.soft_max(linear)
+        
+        return pred
+```
