@@ -17,16 +17,16 @@ def get_images(path : str):
     train_f1_for_epoch = np.zeros_like(epoch_array, dtype = np.float)
 
     for i in range(done_count):
-        test_acc = np.load(path + 'test_acc_for_epoch_{}'.format(i))
-        train_acc = np.load(path + 'train_acc_for_epoch_{}'.format(i))
+        test_acc = np.load(path + 'test_acc_for_epoch_{}.npy'.format(i))
+        train_acc = np.load(path + 'train_acc_for_epoch_{}.npy'.format(i))
 
         length = len(test_acc)
 
         test_acc_for_epoch[:length] += test_acc
         train_acc_for_epoch[:length] += train_acc
         
-        test_f1 = np.load(path + 'test_f1_for_epoch_{}'.format(i))
-        train_f1 = np.load(path + 'train_f1_for_epoch_{}'.format(i))
+        test_f1 = np.load(path + 'test_f1_for_epoch_{}.npy'.format(i))
+        train_f1 = np.load(path + 'train_f1_for_epoch_{}.npy'.format(i))
 
         length = len(test_f1)
 
@@ -65,7 +65,6 @@ def get_images(path : str):
     plt.show()
 
 if __name__ == '__main__':
-    get_images('F:\\2020_new\\双创论文\\fuck\\epoch_k-fold_only\\num_layers=9\\training_2\\')
-    for i in range(3):
-        with open('test.txt', 'w') as f:
-            f.write(str(i))
+    ground_path = 'epoch_k-fold_only\\num_layers=9\\'
+    training_path = ground_path + 'training_2\\'
+    get_images(training_path)
