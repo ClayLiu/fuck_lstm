@@ -42,6 +42,28 @@ class StockForecast_only_lstm(nn.Module):
         
         return pred
 
+class StockForecast_only_lstm_num_layers(nn.Module):
+    def __init__(self, layers_num : int):
+        super(StockForecast_only_lstm_num_layers, self).__init__()
+        
+        self.lstm = nn.LSTM(
+            input_size = 7,
+            hidden_size = 32,
+            num_layers = int(layers_num),
+            batch_first = True
+        )
+        self.drop_out = nn.Dropout()
+        self.linear = nn.Linear(32, 2)
+        # self.soft_max = nn.Softmax()
+
+    def forward(self, x):
+        lstm_out, hidden_cell = self.lstm(x, None)
+        droped = self.drop_out(lstm_out[:, -1, :])
+        pred = self.linear(droped)
+        # pred = self.soft_max(linear)
+        
+        return pred
+
 def get_pred(network : StockForecast_only_lstm, x : torch.Tensor) -> torch.Tensor:
     '''
         计算预测标签
