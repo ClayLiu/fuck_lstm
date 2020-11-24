@@ -31,7 +31,7 @@ else:
 if_shut_down_str = input('是否跑完就关机？[Y/N]\n')
 if_shutdown = 'Y' in if_shut_down_str or 'y' in if_shut_down_str
 
-epoch_array = np.arange(100, 5000, 100)
+epoch_array = np.arange(1, 10)
 np.save(training_path + 'epoch_array', epoch_array)
 
 # 超参数
@@ -80,7 +80,7 @@ for k_fold_time in range(repeat_time):
 
             test_x = shuffle_x[test_index]
             test_y = shuffle_y[test_index]
-
+            
             if if_cuda:
                 test_x, test_y = test_x.to(device), test_y.to(device)
 
@@ -116,12 +116,12 @@ for k_fold_time in range(repeat_time):
                     optimizer.step()
             
             # 计算准确率
-            this_test_acc[i] = get_acc(net, test_x, test_y)
-            this_train_acc[i] = get_acc(net, train_x, train_y)
+            this_test_acc[i] = get_acc(net.cpu(), test_x.cpu(), test_y.cpu())
+            this_train_acc[i] = get_acc(net.cpu(), train_x.cpu(), train_y.cpu())
 
             # 计算f1
-            this_test_f1[i] = get_f1_score(net, test_x, test_y)
-            this_train_f1[i] = get_f1_score(net, train_x, train_y)
+            this_test_f1[i] = get_f1_score(net.cpu(), test_x.cpu(), test_y.cpu())
+            this_train_f1[i] = get_f1_score(net.cpu(), train_x.cpu(), train_y.cpu())
 
 
         mean_test_acc_list.append(this_test_acc.mean())
