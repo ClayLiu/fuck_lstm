@@ -31,7 +31,7 @@ else:
 if_shut_down_str = input('是否跑完就关机？[Y/N]\n')
 if_shutdown = 'Y' in if_shut_down_str or 'y' in if_shut_down_str
 
-epoch_array = np.arange(1, 10)
+epoch_array = np.arange(100, 5000, 100)
 np.save(training_path + 'epoch_array', epoch_array)
 
 # 超参数
