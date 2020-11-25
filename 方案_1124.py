@@ -6,7 +6,7 @@ from torch import nn
 import torch.utils.data as Data
 from sklearn.model_selection import KFold
 
-from net import StockForecast_only_lstm_num_layers
+from net import StockForecast_only_lstm
 from read_data import get_prepared_data_only, shuffle_data
 from utils import get_acc, get_f1_score
 
@@ -92,7 +92,7 @@ for k_fold_time in range(repeat_time):
             )
 
             # 使用有 9 层 lstm 隐藏层的网络
-            net = StockForecast_only_lstm_num_layers(9)
+            net = StockForecast_only_lstm(9)
             
             if if_cuda:
                 net.to(device)
