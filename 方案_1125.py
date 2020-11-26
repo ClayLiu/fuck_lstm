@@ -74,6 +74,7 @@ for k_fold_time in range(repeat_time):
             test_y = shuffle_y[test_index]
             
             if if_cuda:
+                train_x, train_y = train_x.to(device), train_y.to(device)
                 test_x, test_y = test_x.to(device), test_y.to(device)
 
             train_dataset = Data.TensorDataset(train_x, train_y)
@@ -95,9 +96,9 @@ for k_fold_time in range(repeat_time):
             for epoch in range(epoch_count):
                 for step, (batch_x, batch_y) in enumerate(train_data_loader):
                     
-                    if if_cuda:
-                        batch_x = batch_x.to(device)
-                        batch_y = batch_y.to(device)
+                    # if if_cuda:
+                    #     batch_x = batch_x.to(device)
+                    #     batch_y = batch_y.to(device)
 
                     optimizer.zero_grad()
                     pred = net(batch_x)
@@ -106,6 +107,7 @@ for k_fold_time in range(repeat_time):
                     loss.backward()
                     optimizer.step()
             
+            # cpu_net = net.cpu()
             train_pred = net(train_x)
             this_time_train_loss = loss_function(train_pred, train_y).item()
 
@@ -118,8 +120,8 @@ for k_fold_time in range(repeat_time):
         this_num_layers_train_loss.append(current_fold_time_train_loss.mean())
         this_num_layers_test_loss.append(current_fold_time_test_loss.mean())
 
-        np.save(training_path + 'test_loss{}'.format(k_fold_time), np.array(this_time_test_loss))
-        np.save(training_path + 'train_loss{}'.format(k_fold_time), np.array(this_time_train_loss))
+        np.save(training_path + 'test_loss{}'.format(k_fold_time), np.array(this_num_layers_test_loss))
+        np.save(training_path + 'train_loss{}'.format(k_fold_time), np.array(this_num_layers_train_loss))
 
         with open(training_path + 'done_count.txt', 'w') as f:
             f.write(str(k_fold_time + 1))
